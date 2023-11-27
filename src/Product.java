@@ -1,11 +1,14 @@
 abstract class Product {
+
+    protected int pID;
     protected String pName;
     protected String pDescription;
     protected int availableStock;
     protected double pPrice;
 
     //Default constructor
-    Product(String pName, String pDescription, int availableStock, double pPrice){
+    Product(int pID,String pName, String pDescription, int availableStock, double pPrice){
+        this.pID=pID;
         this.pName=pName;
         this.pDescription=pDescription;
         this.availableStock=availableStock;
@@ -13,6 +16,10 @@ abstract class Product {
     }
 
     //Getters
+
+    public int getpID() {
+        return pID;
+    }
 
     public String getpName() {
         return pName;
@@ -31,6 +38,10 @@ abstract class Product {
     }
 
     //Setters
+
+    public void setpID(int pID) {
+        this.pID = pID;
+    }
 
     public void setpName(String pName) {
         this.pName = pName;

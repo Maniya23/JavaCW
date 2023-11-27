@@ -1,15 +1,16 @@
 public class Clothing extends Product{
     protected String size;
     protected String color;
-//    Clothing(String pName, String pDescription, int availableStock, double pPrice) {
+//    Clothing(int pID, String pName, String pDescription, int availableStock, double pPrice) {
+//        super.pID=pID;
 //        super.pName=pName;
 //        super.pDescription=pDescription;
 //        super.availableStock=availableStock;
 //        super.pPrice=pPrice;
 //    }
 
-    Clothing(String pName, String pDescription, int availableStock, double pPrice, String size, String color){
-        super(pName,pDescription,availableStock,pPrice);
+    Clothing(int pID,String pName, String pDescription, int availableStock, double pPrice, String size, String color){
+        super(pID,pName,pDescription,availableStock,pPrice);
         this.size=size;
         this.color=color;
     }
