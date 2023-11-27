@@ -20,7 +20,6 @@ public class Electronics extends Product{
     }
 
     //Setters
-
     public void setBrand(String brand) {
         this.brand = brand;
     }
