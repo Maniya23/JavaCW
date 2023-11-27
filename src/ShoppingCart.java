@@ -5,7 +5,7 @@ public class ShoppingCart {
     private double cartTotalAmt=0; //Total amount of the cart
 
     ShoppingCart(){
-        this.itemsCart=new ArrayList<Product>();
+        itemsCart=new ArrayList<Product>();
     }
 
     public void addProducts(Product item){

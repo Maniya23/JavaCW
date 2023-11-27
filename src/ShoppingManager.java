@@ -1,5 +1,5 @@
 public interface ShoppingManager {
-    void addProducts();
-    void deleteProducts();
+    void addProducts(Product product);
+    void deleteProducts(String pID);
     void printProductList();
 }

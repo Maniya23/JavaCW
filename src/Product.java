@@ -1,13 +1,13 @@
 abstract class Product {
 
-    protected int pID;
+    protected String pID;
     protected String pName;
     protected String pDescription;
     protected int availableStock;
     protected double pPrice;
 
     //Default constructor
-    Product(int pID,String pName, String pDescription, int availableStock, double pPrice){
+    Product(String pID,String pName, String pDescription, int availableStock, double pPrice){
         this.pID=pID;
         this.pName=pName;
         this.pDescription=pDescription;
@@ -17,7 +17,7 @@ abstract class Product {
 
     //Getters
 
-    public int getpID() {
+    public String getpID() {
         return pID;
     }
 
@@ -39,7 +39,7 @@ abstract class Product {
 
     //Setters
 
-    public void setpID(int pID) {
+    public void setpID(String pID) {
         this.pID = pID;
     }
 
