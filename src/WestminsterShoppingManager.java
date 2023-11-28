@@ -34,7 +34,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
                     }
                     else {
                         System.out.println("please enter valid input");
-                        System.out.println("-------------------------");
+                        System.out.println("-------------------------\n");
                     }
                 }
                 productList.remove(j);
