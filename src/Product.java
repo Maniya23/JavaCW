@@ -2,15 +2,13 @@ abstract class Product {
 
     protected String pID;
     protected String pName;
-    protected String pDescription;
     protected int availableStock;
     protected double pPrice;
 
     //Default constructor
-    Product(String pID,String pName, String pDescription, int availableStock, double pPrice){
+    Product(String pID,String pName, int availableStock, double pPrice){
         this.pID=pID;
         this.pName=pName;
-        this.pDescription=pDescription;
         this.availableStock=availableStock;
         this.pPrice=pPrice;
     }
@@ -23,10 +21,6 @@ abstract class Product {
 
     public String getpName() {
         return pName;
-    }
-
-    public String getpDescription() {
-        return pDescription;
     }
 
     public int getAvailableStock() {
@@ -45,10 +39,6 @@ abstract class Product {
 
     public void setpName(String pName) {
         this.pName = pName;
-    }
-
-    public void setpDescription(String pDescription) {
-        this.pDescription = pDescription;
     }
 
     public void setAvailableStock(int availableStock) {

@@ -9,13 +9,55 @@ public class WestminsterShoppingManager implements ShoppingManager{
     }
     @Override
     public void addProducts(Product product) {
+        Scanner scanner = new Scanner(System.in);
+        String productType;
+        while(true){
+            if (productList.size()<50){
 
-        if (productList.size()<50){
-            productList.add(product);
-            System.out.println("Added product"+product.getpName()+"successfully");
-        }
-        else {
-            System.out.println("Sorry product cannot be added due reaching maximum number of products");
+                while (true){
+                    System.out.print("Enter 'E' if your adding an electronic product and enter 'C' if your adding a clothing product : ");
+                    productType = scanner.nextLine().toUpperCase();
+                    if (productType.equals("E") || productType.equals("C")){
+                        break;
+                    }else {continue;}
+                }
+
+                System.out.print("Enter product ID : ");
+                String pID= scanner.nextLine();
+
+                System.out.print("Enter the name of product : ");
+                String pName = scanner.nextLine();
+
+                System.out.print("Enter how many products : ");
+                int noOfProducts = scanner.nextInt();
+
+                System.out.print("Enter the price for product : ");
+                double pPrice = scanner.nextDouble();
+
+                if (productType.equals("E")){
+                    System.out.print("Enter the brand name of the "+pName+" : ");
+                    String brand = scanner.nextLine();
+
+                    System.out.print("Enter the warranty period in months for "+pName+" : ");
+                    int warranty = scanner.nextInt();
+
+                    //Create new electronic product
+                    Electronics electronicProduct = new Electronics(pID,pName,noOfProducts,pPrice,brand,warranty);
+                    productList.add(electronicProduct);
+                }
+                else {
+                    System.out.print("Enter the size of "+pName+": ");
+                    String size = scanner.nextLine();
+
+                    System.out.println("Enter the colour of the "+pName+" : ");
+                    String color = scanner.nextLine();
+
+                    //Create new clothing product
+                    Clothing clothingProduct = new Clothing(pID,pName,noOfProducts,pPrice,size,color);
+                    productList.add(clothingProduct);
+                }
+
+            }
         }
     }
 

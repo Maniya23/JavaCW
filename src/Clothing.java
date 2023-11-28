@@ -9,8 +9,8 @@ public class Clothing extends Product{
 //        super.pPrice=pPrice;
 //    }
 
-    Clothing(String pID,String pName, String pDescription, int availableStock, double pPrice, String size, String color){
-        super(pID,pName,pDescription,availableStock,pPrice);
+    Clothing(String pID,String pName, int availableStock, double pPrice, String size, String color){
+        super(pID,pName,availableStock,pPrice);
         this.size=size;
         this.color=color;
     }
