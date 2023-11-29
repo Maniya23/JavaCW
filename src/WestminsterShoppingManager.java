@@ -77,7 +77,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
     }
 
     @Override
-    public void deleteProducts() { // Use instance of  to find out whether the electronic or clothing
+    public void deleteProducts() {
         Scanner scanner = new Scanner(System.in);
         String selection;
 
@@ -85,25 +85,39 @@ public class WestminsterShoppingManager implements ShoppingManager{
         System.out.print("Enter the product ID : ");
         String pID = scanner.nextLine();
 
-        for (Product j:productList) {
-            if (j.getpID().equals(pID)){
-                System.out.println("Product"+j.getpID()+" : "+j.getpName()+"will be removed");
+        // Loop productList
+        for (Product productDeleting:productList) {
+            if (productDeleting.getpID().equals(pID)){
+                //Print product details if product is found
+                System.out.println("Product to be deleted\n");
+                System.out.println("Product ID :    "+productDeleting.getpID());
+                System.out.println("Product Name :  "+productDeleting.getpName());
+                if (productDeleting instanceof Electronics){ // Search if the found product belongs to electronics type
+                    System.out.println("Product type is :   Electronic");
+                }
+                else {
+                    System.out.println("Product type is :   Clothing");
+                }
+                System.out.println();
+
+                //System.out.println("Product"+productDeleting.getpID()+" : "+productDeleting.getpName()+"will be removed");//
+
                 while(true){
                     System.out.print("Enter 'y' to delete or 'n' to cancel");
                     selection = scanner.nextLine().toLowerCase();
                     if (selection.equals("y")|| selection.equals("n")){
+                        // If selection is yes
+                        if (selection.equals("y")){
+                            productList.remove(productDeleting); // Remove product from list
+                            System.out.println("Product successfully removed");
+                            System.out.println(productList.size()+"products are remaining");
+                        }
                         break;
                     }
                     else {
                         System.out.println("please enter valid input");
                         System.out.println("-------------------------\n");
                     }
-                }
-
-                // If selection is yes
-                if (selection.equals("y")){
-                    productList.remove(j); // Remove product from list
-                    System.out.println("Product successfully removed");
                 }
             }
         }
