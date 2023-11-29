@@ -51,7 +51,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         productList.add(electronicProduct);
                         System.out.println("Product is added successfully");
                     }
-                    else {
+                    else { //If the product is clothing
                         System.out.print("Enter the size of "+pName+": ");
                         String size = scanner.nextLine();
 
@@ -77,15 +77,20 @@ public class WestminsterShoppingManager implements ShoppingManager{
     }
 
     @Override
-    public void deleteProducts(String pID) { // Use instance of variable to find out whether the
+    public void deleteProducts() { // Use instance of  to find out whether the electronic or clothing
         Scanner scanner = new Scanner(System.in);
+        String selection;
+
+        //Get product ID
+        System.out.print("Enter the product ID : ");
+        String pID = scanner.nextLine();
+
         for (Product j:productList) {
             if (j.getpID().equals(pID)){
                 System.out.println("Product"+j.getpID()+" : "+j.getpName()+"will be removed");
                 while(true){
                     System.out.print("Enter 'y' to delete or 'n' to cancel");
-                    String selection = scanner.nextLine();
-                    selection.toLowerCase();
+                    selection = scanner.nextLine().toLowerCase();
                     if (selection.equals("y")|| selection.equals("n")){
                         break;
                     }
@@ -94,8 +99,12 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         System.out.println("-------------------------\n");
                     }
                 }
-                productList.remove(j);
-                System.out.println("Product successfully removed");
+
+                // If selection is yes
+                if (selection.equals("y")){
+                    productList.remove(j); // Remove product from list
+                    System.out.println("Product successfully removed");
+                }
             }
         }
     }
