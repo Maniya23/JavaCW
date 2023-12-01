@@ -34,4 +34,13 @@ public class Clothing extends Product{
     public void setColor(String color) {
         this.color = color;
     }
+
+    public String toString() {
+        String productdetails = super.toString()+"\n"+
+                "size               : "+size+"\n"+
+                "color              : "+color+"\n"+
+                "Product category   : Clothing";
+
+        return productdetails;
+    }
 }

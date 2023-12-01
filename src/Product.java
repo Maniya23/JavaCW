@@ -48,4 +48,14 @@ abstract class Product {
     public void setpPrice(double pPrice) {
         this.pPrice = pPrice;
     }
+
+    @Override
+    public String toString() {
+        String productDetails = "Product ID         : "+pID+"\n"+
+                                "Product Name       : "+pName+"\n"+
+                                "Available stock    : "+availableStock+"\n"+
+                                "Price              : "+pPrice;
+
+        return productDetails;
+    }
 }

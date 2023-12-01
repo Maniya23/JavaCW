@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class WestminsterShoppingManager implements ShoppingManager{
@@ -37,9 +39,10 @@ public class WestminsterShoppingManager implements ShoppingManager{
 
                     System.out.print("Enter the price for product : ");
                     double pPrice = scanner.nextDouble();
+                    scanner.nextLine(); // Reset the scanner
 
                     // Checking if product type is electronic or clothing
-                    if (productType.equals("E")){ // If product is electronic
+                    if (productType.equals("E")){// If product is electronic
                         System.out.print("Enter the brand name of the "+pName+" : ");
                         String brand = scanner.nextLine();
 
@@ -51,11 +54,12 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         productList.add(electronicProduct);
                         System.out.println("Product is added successfully");
                     }
-                    else { //If the product is clothing
+                    else {//If the product is clothing
+
                         System.out.print("Enter the size of "+pName+": ");
                         String size = scanner.nextLine();
 
-                        System.out.println("Enter the colour of the "+pName+" : ");
+                        System.out.print("Enter the colour of the "+pName+" : ");
                         String color = scanner.nextLine();
 
                         //Create new clothing product
@@ -88,19 +92,9 @@ public class WestminsterShoppingManager implements ShoppingManager{
         // Loop productList
         for (Product productDeleting:productList) {
             if (productDeleting.getpID().equals(pID)){
-                //Print product details if product is found
-                System.out.println("Product to be deleted\n");
-                System.out.println("Product ID :    "+productDeleting.getpID());
-                System.out.println("Product Name :  "+productDeleting.getpName());
-                if (productDeleting instanceof Electronics){ // Search if the found product belongs to electronics type
-                    System.out.println("Product type is :   Electronic");
-                }
-                else {
-                    System.out.println("Product type is :   Clothing");
-                }
-                System.out.println();
 
-                //System.out.println("Product"+productDeleting.getpID()+" : "+productDeleting.getpName()+"will be removed");//
+                //Print product details if product is found
+                System.out.println(productDeleting.toString());
 
                 while(true){
                     System.out.print("Enter 'y' to delete or 'n' to cancel");
@@ -110,7 +104,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         if (selection.equals("y")){
                             productList.remove(productDeleting); // Remove product from list
                             System.out.println("Product successfully removed");
-                            System.out.println(productList.size()+"products are remaining");
+                            System.out.println(productList.size()+" products are remaining");
                         }
                         break;
                     }
@@ -119,12 +113,18 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         System.out.println("-------------------------\n");
                     }
                 }
+                break;
             }
         }
     }
 
     @Override
     public void printProductList() {
+        Collections.sort(productList, Comparator.comparing(Product::getpID));
 
+        for (Product p : productList){
+            System.out.println(p.toString());
+            System.out.println();
+        }
     }
 }
