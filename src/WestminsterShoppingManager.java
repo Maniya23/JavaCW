@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -126,5 +130,22 @@ public class WestminsterShoppingManager implements ShoppingManager{
             System.out.println(p.toString());
             System.out.println();
         }
+    }
+
+    @Override
+    public void saveToFile(){
+
+//        try {
+//            File file = new File("Products.txt");
+//            FileWriter writer = new FileWriter(file);
+//            PrintWriter printer = new PrintWriter(writer);
+//
+//            for (Product product : productList){
+//                product.toString();
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getStackTrace());
+//        }
     }
 }
