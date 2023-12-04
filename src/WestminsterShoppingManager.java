@@ -1,7 +1,3 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,11 +90,11 @@ public class WestminsterShoppingManager implements ShoppingManager{
         String pID = scanner.nextLine();
 
         // Loop productList
-        for (Product productDeleting:productList) {
-            if (productDeleting.getpID().equals(pID)){
+        for (Product deletingProduct :productList) {
+            if (deletingProduct.getpID().equals(pID)){
 
                 //Print product details if product is found
-                System.out.println(productDeleting.toString());
+                System.out.println(deletingProduct.toString());
 
                 while(true){
                     System.out.print("Enter 'y' to delete or 'n' to cancel");
@@ -106,7 +102,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
                     if (selection.equals("y")|| selection.equals("n")){
                         // If selection is yes
                         if (selection.equals("y")){
-                            productList.remove(productDeleting); // Remove product from list
+                            productList.remove(deletingProduct); // Remove product from list
                             System.out.println("Product successfully removed");
                             System.out.println(productList.size()+" products are remaining");
                         }
@@ -147,5 +143,63 @@ public class WestminsterShoppingManager implements ShoppingManager{
 //        } catch (Exception e) {
 //            System.out.println(e.getStackTrace());
 //        }
+    }
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String repeater;
+        String userMenu =
+                "1 : Add products to system\n" +
+                "2 : Delete products from system\n" +
+                "3 : Print the list of products\n" +
+                "4 : Save products to file\n" +
+                "5 : Load saved products\n" +
+                "Enter the number for the function you want to do : ";
+
+        WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
+
+        System.out.println("Welcome to Westminster Shopping Management System");
+        System.out.println("*--------------------------------------------------*");
+
+        //Loop the menu for exceptions and repetitions
+        while (true) {
+            try {
+                System.out.print(userMenu);
+                int user_selection = scanner.nextInt();
+                if (user_selection == 1 || user_selection == 2 || user_selection == 3 || user_selection == 4 || user_selection == 5) {
+                    if (user_selection==1){
+                        shoppingManager.addProducts();
+                    } else if (user_selection==2) {
+                        shoppingManager.deleteProducts();
+                    } else if (user_selection==3){
+                        shoppingManager.printProductList();
+                    } else if (user_selection==4) {
+                        shoppingManager.saveToFile();
+                    } else {
+//                        shoppingManager.readFromFile
+                        System.out.println("Condition OK");
+                    }
+
+                    scanner.nextLine(); // Clear scanner buffer
+                    //Ask user if to repeat the process
+                    while (true){
+                        System.out.print("\nDo you want to do any other function. Press 'Y' for yes and 'N' for no : ");
+                        repeater = scanner.nextLine().toUpperCase();
+                        if (repeater.equals("Y") || repeater.equals("N")){break;}
+                    }
+                    if (repeater.equals("Y")){
+                        continue;
+                    }
+                    break;
+                }
+                else {
+                    System.out.println("Please enter a valid number from 1 - 5\n");
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter a valid input\n");
+                scanner.next();
+            }
+        }
     }
 }
