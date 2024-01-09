@@ -1,4 +1,6 @@
-abstract class Product {
+import java.io.Serializable;
+
+abstract class Product implements Serializable {
 
     protected String pID;
     protected String pName;

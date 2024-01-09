@@ -1,9 +1,10 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class WestminsterShoppingManager implements ShoppingManager{
+public class WestminsterShoppingManager implements ShoppingManager {
     private ArrayList<Product> productList;
 
     WestminsterShoppingManager(){
@@ -54,7 +55,8 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         productList.add(electronicProduct);
                         System.out.println("Product is added successfully");
                     }
-                    else {//If the product is clothing
+                    else {
+                        //If the product is clothing
 
                         System.out.print("Enter the size of "+pName+": ");
                         String size = scanner.nextLine();
@@ -69,7 +71,7 @@ public class WestminsterShoppingManager implements ShoppingManager{
                     }
                 }
                 else {
-                    System.out.println("Cannot add product");
+                    System.out.println("Product list size exceeded\nConsider deleting products before adding new products");
                 }
                 break;
 
@@ -130,19 +132,41 @@ public class WestminsterShoppingManager implements ShoppingManager{
 
     @Override
     public void saveToFile(){
+        try{
+            FileWriter readableTxt = new FileWriter("Products.txt"); // Create readable file
+            FileOutputStream binFile = new FileOutputStream("productBin.txt"); // Create binary file (objects)
+            ObjectOutputStream productBinOut = new ObjectOutputStream(binFile); // serializer
 
-//        try {
-//            File file = new File("Products.txt");
-//            FileWriter writer = new FileWriter(file);
-//            PrintWriter printer = new PrintWriter(writer);
-//
-//            for (Product product : productList){
-//                product.toString();
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println(e.getStackTrace());
-//        }
+
+            //Write human-readable file
+            for (Product each: productList) {
+                readableTxt.write(each.toString()+"\n\n");
+            }
+            readableTxt.close();
+
+            //Write binary file for object storing
+            productBinOut.writeObject(productList);
+
+
+        } catch (IOException e){
+            System.out.println("Error writing to file");
+        }
+    }
+
+    public ArrayList<Product> readFromFile(){
+        productList = new ArrayList<>();// Create a new productList
+
+        try {
+            FileInputStream productBinIn = new FileInputStream("productBin.txt");
+            ObjectInputStream productBinList = new ObjectInputStream(productBinIn);
+
+            productList = (ArrayList<Product>) productBinList.readObject();
+        }catch (Exception e){
+            System.out.println("Error");
+        }
+
+
+        return productList;
     }
 
 
@@ -176,8 +200,9 @@ public class WestminsterShoppingManager implements ShoppingManager{
                         shoppingManager.printProductList();
                     } else if (user_selection==4) {
                         shoppingManager.saveToFile();
+                    } else if (user_selection==5) {
+                        shoppingManager.productList=shoppingManager.readFromFile();
                     } else {
-//                        shoppingManager.readFromFile
                         System.out.println("Condition OK");
                     }
 
@@ -202,4 +227,5 @@ public class WestminsterShoppingManager implements ShoppingManager{
             }
         }
     }
+
 }
