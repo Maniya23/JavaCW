@@ -25,6 +25,10 @@ public class Clothing extends Product{
         return color;
     }
 
+    public String getCategory(){
+        return "Clothing";
+    }
+
     //Setters
 
     public void setSize(String size) {

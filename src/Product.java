@@ -33,6 +33,10 @@ abstract class Product implements Serializable {
         return pPrice;
     }
 
+    public String getCategory(){
+        return "Product";
+    }
+
     //Setters
 
     public void setpID(String pID) {

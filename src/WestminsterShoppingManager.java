@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class WestminsterShoppingManager implements ShoppingManager {
     private ArrayList<Product> productList;
 
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
     WestminsterShoppingManager(){
         productList=new ArrayList<Product>();
     }
@@ -170,7 +174,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         String repeater;
         String userMenu =
@@ -182,6 +186,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 "Enter the number for the function you want to do : ";
 
         WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
+        shoppingManager.readFromFile();
 
         System.out.println("Welcome to Westminster Shopping Management System");
         System.out.println("*--------------------------------------------------*");

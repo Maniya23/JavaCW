@@ -19,6 +19,10 @@ public class Electronics extends Product{
         return warrantyPeriod;
     }
 
+    public String getCategory(){
+        return "Electronics";
+    }
+
     //Setters
     public void setBrand(String brand) {
         this.brand = brand;
