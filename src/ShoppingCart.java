@@ -27,5 +27,24 @@ public class ShoppingCart {
         return itemsCart;
     }
 
+    public int getQuantity(Product product){
+        int quantity = 0;
+        for (Product product2:this.viewCart()){
+            if (product.getpID().equals(product2.getpID())){
+                quantity++;
+            }
+        }
+        return quantity;
+
+    }
+    public double getProductTotal(Product product){
+        double productTotal = 0;
+        for (Product product2:this.viewCart()){
+            if (product.getpID().equals(product2.getpID())){
+                productTotal = product.getpPrice()*getQuantity(product);
+            }
+        }
+        return productTotal;
+    }
 }
 

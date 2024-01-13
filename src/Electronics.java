@@ -34,12 +34,12 @@ public class Electronics extends Product{
 
     @Override
     public String toString() {
-        String productdetails = super.toString()+"\n"+
+        String productDetails = super.toString()+"\n"+
                                 "Brand              : "+brand+"\n"+
                                 "Warranty period    : "+warrantyPeriod+"\n"+
-                                "Product category   : Electronic";
+                                "Product category   : "+getCategory();
 
 
-        return productdetails;
+        return productDetails;
     }
 }

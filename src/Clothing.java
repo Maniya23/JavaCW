@@ -40,11 +40,11 @@ public class Clothing extends Product{
     }
 
     public String toString() {
-        String productdetails = super.toString()+"\n"+
+        String productDetails = super.toString()+"\n"+
                 "size               : "+size+"\n"+
                 "color              : "+color+"\n"+
-                "Product category   : Clothing";
+                "Product category   : "+getCategory();
 
-        return productdetails;
+        return productDetails;
     }
 }
