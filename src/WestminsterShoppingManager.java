@@ -165,11 +165,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
             ObjectInputStream productBinList = new ObjectInputStream(productBinIn);
 
             productList = (ArrayList<Product>) productBinList.readObject();
-        }catch (Exception e){
+        } catch (Exception e){
             System.out.println("Error");
         }
-
-
         return productList;
     }
 
@@ -182,7 +180,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 "2 : Delete products from system\n" +
                 "3 : Print the list of products\n" +
                 "4 : Save products to file\n" +
-                "5 : Load saved products\n" +
+                "5 : Open shopping cart\n" +
                 "Enter the number for the function you want to do : ";
 
         WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
@@ -206,7 +204,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                     } else if (user_selection==4) {
                         shoppingManager.saveToFile();
                     } else if (user_selection==5) {
-                        shoppingManager.productList=shoppingManager.readFromFile();
+                        new ShoppingPage(shoppingManager);
                     } else {
                         System.out.println("Condition OK");
                     }

@@ -35,8 +35,8 @@ public class ShoppingCart {
             }
         }
         return quantity;
-
     }
+
     public double getProductTotal(Product product){
         double productTotal = 0;
         for (Product product2:this.viewCart()){

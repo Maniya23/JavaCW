@@ -3,38 +3,30 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ShoppingPage extends JFrame implements ActionListener{
     JFrame frame = new JFrame();
-
     JButton cartButton;
     JButton addToCart;
     JTable productTable;
     JTextArea productDetail;
     JComboBox categories;
     DefaultTableModel productTableModel;
-
-    String [] columns = {"ProductID","Name","Category","Price($)","Info"};
+    ShoppingCart shoppingCart = new ShoppingCart();
+    String [] columns = {"ProductID","Name","Category","Price(€)","Info"};
     WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
-    ArrayList<Product> cart= new ArrayList<>(); //Create shopping cart
-    ArrayList<Product> productList = new ArrayList<>();
 
-    ShoppingPage() {
-        Product product1 = new Electronics("1", "Laptop", 10, 1000, "Apple", 2);
-        Product product2 = new Clothing("2", "Shirt", 1, 100, "S", "blue");
-        Product product3 = new Electronics("3", "Mobile", 11, 1100, "Samsung", 4);
-        Product product4 = new Clothing("4", "T-Shirt", 4, 120, "M", "red");
+//    ArrayList<Product> cart= new ArrayList<>(); //Create shopping cart
+//    ArrayList<Product> productList = new ArrayList<>();
 
-
-        shoppingManager.getProductList().add(product1);
-        shoppingManager.getProductList().add(product2);
-        shoppingManager.getProductList().add(product3);
-        shoppingManager.getProductList().add(product4);
-
+    ShoppingPage(WestminsterShoppingManager shoppingManager) {
+        this.shoppingManager = shoppingManager;
 
         //set frame
         frame.setTitle("Westminster Shopping Manager");
@@ -44,6 +36,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
 
         //Create Components
         JLabel label = new JLabel("Select Product Category");
+
         categories = new JComboBox(new String[]{"ALL", "ELECTRONICS", "CLOTHING"});
         categories.addActionListener(this);
 
@@ -59,9 +52,11 @@ public class ShoppingPage extends JFrame implements ActionListener{
         productTable = new JTable(productTableModel);
         JScrollPane scroll = new JScrollPane(productTable);
 
-        productDetail = new JTextArea(5, 20);
+        productDetail = new JTextArea(10, 30);
         productDetail.setEditable(false);
 
+
+        // Initial table data
         for (Product product : shoppingManager.getProductList()) {
             Object[] rowData = {product.getpID(), product.getpName(), product.getCategory(), product.getpPrice(), infoCol(product)};
             if (product.getAvailableStock()<3){
@@ -70,6 +65,8 @@ public class ShoppingPage extends JFrame implements ActionListener{
             productTableModel.addRow(rowData);
         }
 
+        // Sort Table
+        sortTableByProductId();
 
         //Top bar panel
         JPanel topBar = new JPanel();
@@ -77,11 +74,11 @@ public class ShoppingPage extends JFrame implements ActionListener{
         topBar.add(categories);
         topBar.add(cartButton);
 
+
         //Product Table Panel
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(scroll, BorderLayout.CENTER);
-//        JButton sort = new JButton("Sort");
-//        tablePanel.add(sort, BorderLayout.WEST);
+
 
         //Product Details panel
         JPanel detailPanel = new JPanel();
@@ -106,16 +103,18 @@ public class ShoppingPage extends JFrame implements ActionListener{
                     }
                 }
             }
-
         });
+
     }
+
     @Override
     public void actionPerformed (ActionEvent e){
         // If shopping cart button is clicked
         if (e.getSource() == cartButton) {
             this.dispose();
-            ShoppingCartPage shoppingCart = new ShoppingCartPage();
+            ShoppingCartPage shoppingCartInterface = new ShoppingCartPage(shoppingCart);
         }
+
         // If add to cart button is clicked
         if (e.getSource()==addToCart){
             int selectedRow = productTable.getSelectedRow();
@@ -123,7 +122,8 @@ public class ShoppingPage extends JFrame implements ActionListener{
                 String productID = (String) productTableModel.getValueAt(selectedRow, 0);
                 for (Product product : shoppingManager.getProductList()) {
                     if (product.getpID().equals(productID)) {
-                        cart.add(product);
+//                        int count = product.getAvailableStock();
+                        shoppingCart.addProducts(product);
                         JOptionPane.showMessageDialog(this, "The Product has been added successfully");
                         break;
                     }
@@ -179,7 +179,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         String productID = (String) productTableModel.getValueAt(selectedRow, 0);
         for (Product product : shoppingManager.getProductList()) {
             if (product.getpID().equals(productID)) {
-                productDetail.setText(product.toString());
+                productDetail.setText("Selected Product-Details\n\n" + product.toString());
                 break;
             }
         }
@@ -188,7 +188,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
     public String infoCol (Product product){
         String retString=null;
         if (product instanceof Electronics) {
-            retString = ((Electronics) product).getBrand() + ", " + ((Electronics) product).getWarrantyPeriod();
+            retString = ((Electronics) product).getBrand() + ", " + ((Electronics) product).getWarrantyPeriod()+" months warranty";
         }
         if (product instanceof Clothing) {
             retString = ((Clothing) product).getSize() + ", " + ((Clothing) product).getColor();
@@ -204,6 +204,15 @@ public class ShoppingPage extends JFrame implements ActionListener{
         rowData[4] = "<html><font color='red'>" + infoCol(product) + "</font></html>";
     }
 
+    public void sortTableByProductId() {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(productTableModel);
+        productTable.setRowSorter(sorter);
+
+        Comparator<String> productIdComparator = Comparator.naturalOrder();
+        sorter.setComparator(0, productIdComparator);
+        sorter.toggleSortOrder(0);  // Initially, sort ascending
+    }
+
     private Product findProductById(String productID) {
         for (Product product : shoppingManager.getProductList()) {
             if (product.getpID().equals(productID)) {
@@ -213,7 +222,4 @@ public class ShoppingPage extends JFrame implements ActionListener{
         return null; // Product not found
     }
 
-    public static void main(String[] args) {
-        new ShoppingPage();
-    }
 }
