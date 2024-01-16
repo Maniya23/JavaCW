@@ -1,29 +1,33 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
 import java.util.HashSet;
 
-public class ShoppingCartPage {
+public class ShoppingCartPage extends JFrame{
+    private User user;
     JFrame frame = new JFrame();
     DefaultTableModel ProductTableModel;
     HashSet<String> uniqueProducts = new HashSet<>();
-    ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCart;
     JTable ChosenProductsTable;
-
     JTextArea FinalAmountDesc;
 
-    ShoppingCartPage(ShoppingCart shoppingCart) {
+    ShoppingCartPage(ShoppingCart shoppingCart, User user) {
+        this.user = user;
         this.shoppingCart = shoppingCart;
 
         frame.setTitle("Shopping Cart");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(600, 600);
 
+
         ProductTableModel = new DefaultTableModel();
-        String[] tableColumns = {"Product", "Quantity,","Price(€)"};
+        String[] tableColumns = {"Product", "Quantity","Price(€)"};
         ProductTableModel.setColumnIdentifiers(tableColumns);
 
-        for (Product product : shoppingCart.itemsCart) {
+        for (Product product : shoppingCart.getItemsCart()) {
             if (!uniqueProducts.contains(product.getpID())){
                 Object[] rowData = {ProductInfo(product),shoppingCart.getQuantity(product),shoppingCart.getProductTotal(product)+" €"};
                 ProductTableModel.addRow(rowData);
@@ -37,10 +41,17 @@ public class ShoppingCartPage {
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(scroll);
 
-        FinalAmountDesc = new JTextArea("First Purchase Discount(10%) :"+shoppingCart.itemsCart.size()+
-                "\n3 Items in the same Category Discount(20%) :"+sameProductDiscount()+" €"+
+        FinalAmountDesc = new JTextArea("First Purchase Discount(10%) :"+shoppingCart.firstPurchaseDiscount(shoppingCart, user.isUserFound())+
+                "\n3 Items in the same Category Discount(20%) :"+shoppingCart.sameProductDiscount(shoppingCart)+" €"+
                 "\nTotal Amount :"+shoppingCart.cartTotal()+" €");
 
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                shoppingCart.setCartTotalAmt(0);
+//                frame.dispose();
+            }
+        });
 
         frame.setLayout(new BorderLayout());
         frame.add(tablePanel, BorderLayout.NORTH);
@@ -60,21 +71,14 @@ public class ShoppingCartPage {
         return info;
     }
 
-    public double firstPurchaseDiscount(){
-        double discount = 0;
-        if (shoppingCart.itemsCart.size()>=5){
-            discount = shoppingCart.cartTotal()*0.1;
-        }
-        return discount;
-    }
 
-    public double sameProductDiscount() {
-        double discount = 0;
-        for (Product product:shoppingCart.itemsCart){
-            if (shoppingCart.getQuantity(product)>=3){
-                discount += product.getpPrice()*0.2;
+
+    private Product findProductById(String productID) {
+        for (Product product : shoppingCart.getItemsCart()) {
+            if (product.getpID().equals(productID)) {
+                return product;
             }
         }
-        return discount;
+        return null; // Product not found
     }
 }

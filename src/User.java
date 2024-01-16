@@ -1,6 +1,9 @@
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String username;
     private String password;
+    private boolean UserFound=false;
 
     User(String username, String password){
         this.username=username;
@@ -24,5 +27,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setUserFound(boolean userFound) {
+        this.UserFound = userFound;
+    }
+
+    public boolean isUserFound() {
+        return UserFound;
     }
 }

@@ -1,7 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -18,14 +15,15 @@ public class ShoppingPage extends JFrame implements ActionListener{
     JTextArea productDetail;
     JComboBox categories;
     DefaultTableModel productTableModel;
-    ShoppingCart shoppingCart = new ShoppingCart();
+    ShoppingCart shoppingCart;
     String [] columns = {"ProductID","Name","Category","Price(€)","Info"};
     WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
+    ShoppingCartPage shoppingCartInterface;
+    User user;
 
-//    ArrayList<Product> cart= new ArrayList<>(); //Create shopping cart
-//    ArrayList<Product> productList = new ArrayList<>();
-
-    ShoppingPage(WestminsterShoppingManager shoppingManager) {
+    ShoppingPage(WestminsterShoppingManager shoppingManager, User user) {
+        this.user = user;
+        this.shoppingCart = new ShoppingCart(user);
         this.shoppingManager = shoppingManager;
 
         //set frame
@@ -43,7 +41,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         cartButton = new JButton("Shopping Cart");
         cartButton.addActionListener(this);
 
-        addToCart = new JButton("Add to cart");
+        addToCart = new JButton("Add to Shopping Cart");
         addToCart.addActionListener(this);
 
         productTableModel = new DefaultTableModel(); // Table
@@ -66,7 +64,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         }
 
         // Sort Table
-        sortTableByProductId();
+//        sortTableByProductId();
 
         //Top bar panel
         JPanel topBar = new JPanel();
@@ -91,16 +89,18 @@ public class ShoppingPage extends JFrame implements ActionListener{
         frame.add(topBar, BorderLayout.NORTH);
         frame.add(tablePanel, BorderLayout.CENTER);
         frame.add(detailPanel, BorderLayout.SOUTH);
+        sortTableByProductId();
         frame.setVisible(true);
 
-        productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = productTable.getSelectedRow();
-                    if (selectedRow != -1) {
-                        displayProductInfo(selectedRow);
-                    }
+
+
+
+        productTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = productTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    int selectedModelRow = productTable.convertRowIndexToModel(selectedRow);
+                    displayProductInfo(selectedModelRow);
                 }
             }
         });
@@ -111,8 +111,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
     public void actionPerformed (ActionEvent e){
         // If shopping cart button is clicked
         if (e.getSource() == cartButton) {
-            this.dispose();
-            ShoppingCartPage shoppingCartInterface = new ShoppingCartPage(shoppingCart);
+            shoppingCartInterface = new ShoppingCartPage(shoppingCart, user);
         }
 
         // If add to cart button is clicked
@@ -122,14 +121,14 @@ public class ShoppingPage extends JFrame implements ActionListener{
                 String productID = (String) productTableModel.getValueAt(selectedRow, 0);
                 for (Product product : shoppingManager.getProductList()) {
                     if (product.getpID().equals(productID)) {
-//                        int count = product.getAvailableStock();
                         shoppingCart.addProducts(product);
                         JOptionPane.showMessageDialog(this, "The Product has been added successfully");
                         break;
                     }
                 }
-            }
+            }else {JOptionPane.showMessageDialog(this, "Please select a product to be added");}
         }
+
 
         // Filter category
         if (e.getSource() == categories) {
@@ -210,16 +209,6 @@ public class ShoppingPage extends JFrame implements ActionListener{
 
         Comparator<String> productIdComparator = Comparator.naturalOrder();
         sorter.setComparator(0, productIdComparator);
-        sorter.toggleSortOrder(0);  // Initially, sort ascending
-    }
-
-    private Product findProductById(String productID) {
-        for (Product product : shoppingManager.getProductList()) {
-            if (product.getpID().equals(productID)) {
-                return product;
-            }
-        }
-        return null; // Product not found
     }
 
 }
