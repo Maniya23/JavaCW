@@ -16,12 +16,13 @@ public class ShoppingCart {
         itemsCart.add(item);
     }
 
+    // Calculate cart total
     public double cartTotal(){
         for (Product i : itemsCart) {
             cartTotalAmt = cartTotalAmt+i.getpPrice();
         }
         cartTotalAmt = cartTotalAmt - sameProductDiscount(this);
-//        cartTotalAmt = cartTotalAmt - firstPurchaseDiscount(this, user.isUserFound());
+        cartTotalAmt = cartTotalAmt - firstPurchaseDiscount(this, user.isUserFound());
         return cartTotalAmt;
     }
 
@@ -33,6 +34,7 @@ public class ShoppingCart {
         return itemsCart;
     }
 
+    // Get quantity of product
     public int getQuantity(Product product){
         int quantity = 0;
         for (Product productNew:this.getItemsCart()){
@@ -51,6 +53,7 @@ public class ShoppingCart {
         return productTotal;
     }
 
+    // Same category product discount
     public double sameProductDiscount(ShoppingCart shoppingCart){
         double discount = 0;
         for (Product product:shoppingCart.itemsCart){
@@ -61,6 +64,7 @@ public class ShoppingCart {
         return discount;
     }
 
+    // First time user discount
     public double firstPurchaseDiscount(ShoppingCart shoppingCart, boolean firstPurchase){
         double discount = 0;
         if (firstPurchase){

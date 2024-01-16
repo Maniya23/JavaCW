@@ -20,7 +20,6 @@ public class User implements Serializable {
     }
 
     //Setters
-
     public void setUsername(String username) {
         this.username = username;
     }

@@ -9,12 +9,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class UserSignInPage implements ActionListener{
-    JButton submitButton;
-    boolean UserFound = false;
-    JPanel usernamePanel;
-    JLabel usernameText;
-    JLabel passwordText;
-    JPanel passwordPanel;
+    private JButton submitButton;
+    private boolean UserFound = false;
+    private JPanel usernamePanel;
+    private JLabel usernameText;
+    private JLabel passwordText;
+    private JPanel passwordPanel;
     private JTextField usernameInput;
     private JPasswordField passwordInput;
     private JFrame frame = new JFrame();
@@ -22,13 +22,9 @@ public class UserSignInPage implements ActionListener{
     private WestminsterShoppingManager shoppingManager;
 
     public UserSignInPage(WestminsterShoppingManager shoppingManager) {
-        User u1 = new User("admin", "admin1");
-        User u2 = new User("jerry", "jerry1");
-        RegUsers.add(u1);
-        RegUsers.add(u2);
-        writeUserFile();
         this.shoppingManager = shoppingManager;
 
+        // Frame
         frame.setTitle("Sign In");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 300);
@@ -61,18 +57,18 @@ public class UserSignInPage implements ActionListener{
         frame.setVisible(true);
     }
 
+    // Action Listeners
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submitButton){
             String username = usernameInput.getText();
             String password = passwordInput.getText();
-//            user.setUsername(usernameInput.getText());
-//            user.setPassword(passwordInput.getText());
             validateUser(username, password);
 
         }
     }
 
+    // Validating user login
     private void validateUser(String username, String password){
         readUserFile();
         if (RegUsers.size()==0){
@@ -105,6 +101,7 @@ public class UserSignInPage implements ActionListener{
         }
     }
 
+    // Write/save users to file
     private void writeUserFile (){
         try{
             FileOutputStream fis = new FileOutputStream("userBin.txt"); // Create binary file (users)
@@ -117,6 +114,7 @@ public class UserSignInPage implements ActionListener{
         }
     }
 
+    // Read existing users from file
     private ArrayList<User> readUserFile (){
         try{
             FileInputStream fis = new FileInputStream("userBin.txt"); // Create binary file (users)
@@ -129,12 +127,4 @@ public class UserSignInPage implements ActionListener{
         }
         return RegUsers;
     }
-
-//    public boolean isUserFound() {
-//        return UserFound;
-//    }
-
-    //    public static void main(String[] args) {
-//        UserSignInPage userSignInPage = new UserSignInPage();
-//    }
 }

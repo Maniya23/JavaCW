@@ -8,17 +8,17 @@ import java.awt.event.ActionListener;
 import java.util.Comparator;
 
 public class ShoppingPage extends JFrame implements ActionListener{
-    JFrame frame = new JFrame();
-    JButton cartButton;
-    JButton addToCart;
-    JTable productTable;
-    JTextArea productDetail;
-    JComboBox categories;
-    DefaultTableModel productTableModel;
-    ShoppingCart shoppingCart;
-    String [] columns = {"ProductID","Name","Category","Price(€)","Info"};
-    WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
-    ShoppingCartPage shoppingCartInterface;
+    private JFrame frame = new JFrame();
+    private JButton cartButton;
+    private JButton addToCart;
+    private JTable productTable;
+    private JTextArea productDetail;
+    private JComboBox categories;
+    private DefaultTableModel productTableModel;
+    private ShoppingCart shoppingCart;
+    private String [] columns = {"ProductID","Name","Category","Price(€)","Info"};
+    private WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
+    private ShoppingCartPage shoppingCartInterface;
     User user;
 
     ShoppingPage(WestminsterShoppingManager shoppingManager, User user) {
@@ -63,8 +63,6 @@ public class ShoppingPage extends JFrame implements ActionListener{
             productTableModel.addRow(rowData);
         }
 
-        // Sort Table
-//        sortTableByProductId();
 
         //Top bar panel
         JPanel topBar = new JPanel();
@@ -93,8 +91,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         frame.setVisible(true);
 
 
-
-
+        // Table Listener
         productTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = productTable.getSelectedRow();
@@ -107,6 +104,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
 
     }
 
+    // Action Listeners
     @Override
     public void actionPerformed (ActionEvent e){
         // If shopping cart button is clicked
@@ -174,6 +172,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         }
     }
 
+    // Display product details
     public void displayProductInfo (int selectedRow){
         String productID = (String) productTableModel.getValueAt(selectedRow, 0);
         for (Product product : shoppingManager.getProductList()) {
@@ -184,6 +183,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         }
     }
 
+    // Fill info column in table
     public String infoCol (Product product){
         String retString=null;
         if (product instanceof Electronics) {
@@ -195,6 +195,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         return retString;
     }
 
+    // Mark availability
     public void lowAvailability(Object[] rowData, Product product){
         rowData[0] = product.getpID();
         rowData[1] = "<html><font color='red'>" + product.getpName() + "</font></html>";
@@ -203,6 +204,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         rowData[4] = "<html><font color='red'>" + infoCol(product) + "</font></html>";
     }
 
+    // Sort table alphabetically
     public void sortTableByProductId() {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(productTableModel);
         productTable.setRowSorter(sorter);

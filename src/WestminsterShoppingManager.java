@@ -12,16 +12,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
     }
     @Override
     public void addProducts() {
-//        Product p1 = new Electronics("E001","TV",10,1500,"Panasonic",24);
-//        Product p2 = new Electronics("E002","Mobile",15,1200,"Samsung",10);
-//        Product p3 = new Clothing("C001","T-Shirt",25,10,"S","Red");
-//        Product p4 = new Clothing("C002","Denim",30,30,"L","Blue");
-//
-//        productList.add(p1);
-//        productList.add(p2);
-//        productList.add(p3);
-//        productList.add(p4);
-//        saveToFile();
 
         Scanner scanner = new Scanner(System.in);
         String productType;
@@ -91,7 +81,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 }
                 break;
 
-                //}
             }catch(Exception e){
                 System.out.println("Input error occurred. Please use correct inputs");
             }
@@ -188,11 +177,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
         Scanner scanner = new Scanner(System.in);
         String repeater;
         String userMenu =
-                "1 : Add products to system\n" +
+                        "1 : Add products to system\n" +
                         "2 : Delete products from system\n" +
                         "3 : Print the list of products\n" +
                         "4 : Save products to file\n" +
-                        "5 : Load saved products\n" +
+                        "5 : Open Shopping Manager GUI\n" +
                         "Enter the number for the function you want to do : ";
 
         WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
@@ -206,7 +195,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             try {
                 System.out.print(userMenu);
                 int user_selection = scanner.nextInt();
-                if (user_selection == 1 || user_selection == 2 || user_selection == 3 || user_selection == 4 || user_selection == 5 || user_selection == 6) {
+                if (user_selection == 1 || user_selection == 2 || user_selection == 3 || user_selection == 4 || user_selection == 5) {
                     if (user_selection==1){
                         shoppingManager.addProducts();
                     } else if (user_selection==2) {
@@ -215,12 +204,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         shoppingManager.printProductList();
                     } else if (user_selection==4) {
                         shoppingManager.saveToFile();
-                    } else if (user_selection==5) {
-//                        new ShoppingPage(shoppingManager);
-                    } else if (user_selection==6) {
+                    }  else if (user_selection==5) {
                         new UserSignInPage(shoppingManager);
-                    } else {
-                        System.out.println("Condition OK");
                     }
 
                     scanner.nextLine(); // Clear scanner buffer

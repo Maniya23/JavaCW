@@ -7,22 +7,24 @@ import java.util.HashSet;
 
 public class ShoppingCartPage extends JFrame{
     private User user;
-    JFrame frame = new JFrame();
-    DefaultTableModel ProductTableModel;
-    HashSet<String> uniqueProducts = new HashSet<>();
+    private JFrame frame = new JFrame();
+    private DefaultTableModel ProductTableModel;
+    private HashSet<String> uniqueProducts = new HashSet<>();
     private ShoppingCart shoppingCart;
-    JTable ChosenProductsTable;
-    JTextArea FinalAmountDesc;
+    private JTable ChosenProductsTable;
+    private JTextArea FinalAmountDesc;
 
     ShoppingCartPage(ShoppingCart shoppingCart, User user) {
         this.user = user;
         this.shoppingCart = shoppingCart;
 
+        // frame
         frame.setTitle("Shopping Cart");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(600, 600);
 
 
+        // Table
         ProductTableModel = new DefaultTableModel();
         String[] tableColumns = {"Product", "Quantity","Price(€)"};
         ProductTableModel.setColumnIdentifiers(tableColumns);
@@ -35,9 +37,11 @@ public class ShoppingCartPage extends JFrame{
             }
         }
 
+        // Table
         ChosenProductsTable=new JTable(ProductTableModel);
         JScrollPane scroll = new JScrollPane(ChosenProductsTable);
 
+        // Panel
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(scroll);
 
@@ -49,7 +53,6 @@ public class ShoppingCartPage extends JFrame{
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 shoppingCart.setCartTotalAmt(0);
-//                frame.dispose();
             }
         });
 
@@ -60,6 +63,7 @@ public class ShoppingCartPage extends JFrame{
         frame.setVisible(true);
     }
 
+    // get product information
     public String ProductInfo(Product product){
         String info = "";
         if (product instanceof Electronics){
@@ -69,16 +73,5 @@ public class ShoppingCartPage extends JFrame{
             info = product.getpID()+", "+product.getpName()+", "+((Clothing) product).getColor()+", "+((Clothing) product).getSize();
         }
         return info;
-    }
-
-
-
-    private Product findProductById(String productID) {
-        for (Product product : shoppingCart.getItemsCart()) {
-            if (product.getpID().equals(productID)) {
-                return product;
-            }
-        }
-        return null; // Product not found
     }
 }
