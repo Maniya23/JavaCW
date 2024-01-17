@@ -33,8 +33,17 @@ public class WestminsterShoppingManager implements ShoppingManager {
                     System.out.print("Enter product ID : ");
                     String pID= scanner.nextLine();
 
-                    if (productList.contains(pID)){
-                        System.out.println("Product ID already exists");
+                    // Checking if product ID already exists
+                    boolean existingProduct = false;
+                    for (Product product : productList) {
+                        if (product.getpID().equals(pID)) {
+                            existingProduct = true;
+                            break;
+                        }
+                    }
+
+                    if (existingProduct) {
+                        System.out.println("Product ID already exists\n");
                         continue;
                     }
 
@@ -82,7 +91,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 break;
 
             }catch(Exception e){
-                System.out.println("Input error occurred. Please use correct inputs");
+                System.out.println("Input error occurred. Please use correct inputs\n");
             }
         }
     }
@@ -104,7 +113,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 System.out.println(deletingProduct.toString());
 
                 while(true){
-                    System.out.print("Enter 'y' to delete or 'n' to cancel");
+                    System.out.print("Enter 'y' to delete or 'n' to cancel : ");
                     selection = scanner.nextLine().toLowerCase();
                     if (selection.equals("y")|| selection.equals("n")){
                         // If selection is yes
@@ -123,6 +132,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 break;
             }
         }
+        System.out.println("Product ID not found");
     }
 
     @Override
@@ -151,6 +161,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
             //Write binary file for object storing
             productBinOut.writeObject(productList);
+
+            System.out.println("Products saved to file");
 
 
         } catch (IOException e){

@@ -21,7 +21,7 @@ public class ShoppingCart {
         for (Product i : itemsCart) {
             cartTotalAmt = cartTotalAmt+i.getpPrice();
         }
-        cartTotalAmt = cartTotalAmt - sameProductDiscount(this);
+        cartTotalAmt = cartTotalAmt - sameCategoryDiscount(this);
         cartTotalAmt = cartTotalAmt - firstPurchaseDiscount(this, user.isUserFound());
         return cartTotalAmt;
     }
@@ -43,6 +43,14 @@ public class ShoppingCart {
         return quantity;
     }
 
+    public int getCategoryQuantity(Product product){
+        int sameCategoryProducts = 0;
+        for (Product productNew:this.getItemsCart()){
+            if (product.getCategory().equals(productNew.getCategory())){
+                sameCategoryProducts++;}}
+        return sameCategoryProducts;
+    }
+
     public double getProductTotal(Product product){
         double productTotal = 0;
         for (Product product2:this.getItemsCart()){
@@ -54,10 +62,10 @@ public class ShoppingCart {
     }
 
     // Same category product discount
-    public double sameProductDiscount(ShoppingCart shoppingCart){
+    public double sameCategoryDiscount(ShoppingCart shoppingCart){
         double discount = 0;
         for (Product product:shoppingCart.itemsCart){
-            if (shoppingCart.getQuantity(product)>=3){
+            if (shoppingCart.getCategoryQuantity(product)>=3){
                 discount += product.getpPrice()*0.2;
             }
         }
