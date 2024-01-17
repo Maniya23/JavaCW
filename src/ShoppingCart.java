@@ -17,7 +17,7 @@ public class ShoppingCart {
     }
 
     // Calculate cart total
-    public double cartTotal(){
+    public double cartTotalPrice(){
         for (Product i : itemsCart) {
             cartTotalAmt = cartTotalAmt+i.getpPrice();
         }

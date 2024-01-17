@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class WestminsterShoppingManager implements ShoppingManager {
-    protected ArrayList<Product> productList;
+    private ArrayList<Product> productList;
 
     WestminsterShoppingManager(){
         productList=new ArrayList<Product>();
@@ -182,6 +182,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         "3 : Print the list of products\n" +
                         "4 : Save products to file\n" +
                         "5 : Open Shopping Manager GUI\n" +
+                        "6 : Close the program\n"+
                         "Enter the number for the function you want to do : ";
 
         WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
@@ -195,7 +196,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             try {
                 System.out.print(userMenu);
                 int user_selection = scanner.nextInt();
-                if (user_selection == 1 || user_selection == 2 || user_selection == 3 || user_selection == 4 || user_selection == 5) {
+                if (user_selection == 1 || user_selection == 2 || user_selection == 3 || user_selection == 4 || user_selection == 5 || user_selection == 6) {
                     if (user_selection==1){
                         shoppingManager.addProducts();
                     } else if (user_selection==2) {
@@ -204,8 +205,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         shoppingManager.printProductList();
                     } else if (user_selection==4) {
                         shoppingManager.saveToFile();
-                    }  else if (user_selection==5) {
+                    } else if (user_selection==5) {
                         new UserSignInPage(shoppingManager);
+                    } else if (user_selection==6) {
+                        System.exit(0);
                     }
 
                     scanner.nextLine(); // Clear scanner buffer

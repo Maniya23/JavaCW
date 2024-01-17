@@ -2,10 +2,10 @@ import java.io.Serializable;
 
 abstract class Product implements Serializable {
 
-    protected String pID;
-    protected String pName;
-    protected int availableStock;
-    protected double pPrice;
+    private String pID;
+    private String pName;
+    private int availableStock;
+    private double pPrice;
 
     //Default constructor
     Product(String pID,String pName, int availableStock, double pPrice){

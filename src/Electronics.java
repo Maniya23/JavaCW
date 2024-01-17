@@ -1,8 +1,8 @@
 public class Electronics extends Product{
 
-    protected String brand;
+    private String brand;
 
-    protected int warrantyPeriod;
+    private int warrantyPeriod;
 
     Electronics(String pID,String pName, int availableStock, double pPrice, String brand, int warrantyPeriod){
        super(pID,pName,availableStock,pPrice);

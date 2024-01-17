@@ -47,7 +47,7 @@ public class ShoppingCartPage extends JFrame{
 
         FinalAmountDesc = new JTextArea("First Purchase Discount(10%) :"+shoppingCart.firstPurchaseDiscount(shoppingCart, user.isUserFound())+
                 "\n3 Items in the same Category Discount(20%) :"+shoppingCart.sameProductDiscount(shoppingCart)+" €"+
-                "\nTotal Amount :"+shoppingCart.cartTotal()+" €");
+                "\nTotal Amount :"+shoppingCart.cartTotalPrice()+" €");
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

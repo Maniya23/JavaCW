@@ -1,6 +1,6 @@
 public class Clothing extends Product{
-    protected String size;
-    protected String color;
+    private String size;
+    private String color;
 
     Clothing(String pID,String pName, int availableStock, double pPrice, String size, String color){
         super(pID,pName,availableStock,pPrice);

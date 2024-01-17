@@ -16,10 +16,10 @@ public class ShoppingPage extends JFrame implements ActionListener{
     private JComboBox categories;
     private DefaultTableModel productTableModel;
     private ShoppingCart shoppingCart;
-    private String [] columns = {"ProductID","Name","Category","Price(€)","Info"};
+    private String [] tableColumns = {"ProductID","Name","Category","Price(€)","Info"};
     private WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
     private ShoppingCartPage shoppingCartInterface;
-    User user;
+    private User user;
 
     ShoppingPage(WestminsterShoppingManager shoppingManager, User user) {
         this.user = user;
@@ -45,7 +45,7 @@ public class ShoppingPage extends JFrame implements ActionListener{
         addToCart.addActionListener(this);
 
         productTableModel = new DefaultTableModel(); // Table
-        productTableModel.setColumnIdentifiers(columns);
+        productTableModel.setColumnIdentifiers(tableColumns);
 
         productTable = new JTable(productTableModel);
         JScrollPane scroll = new JScrollPane(productTable);

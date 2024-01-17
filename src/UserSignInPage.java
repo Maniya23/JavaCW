@@ -69,7 +69,7 @@ public class UserSignInPage implements ActionListener{
     }
 
     // Validating user login
-    private void validateUser(String username, String password){
+    private void validateUser(String username, String password) {
         readUserFile();
         if (RegUsers.size()==0){
             UserFound = true;
@@ -87,6 +87,8 @@ public class UserSignInPage implements ActionListener{
                 break;
             } else if (user.getUsername().equals(username) && !user.getPassword().equals(password)){
                 JOptionPane.showMessageDialog(frame, "Incorrect Password, Try again");
+                UserFound = true;
+                return;
             }
         }
 
@@ -101,7 +103,7 @@ public class UserSignInPage implements ActionListener{
         }
     }
 
-    // Write/save users to file
+    //Write/save users to file
     private void writeUserFile (){
         try{
             FileOutputStream fis = new FileOutputStream("userBin.txt"); // Create binary file (users)
@@ -127,4 +129,5 @@ public class UserSignInPage implements ActionListener{
         }
         return RegUsers;
     }
+
 }
