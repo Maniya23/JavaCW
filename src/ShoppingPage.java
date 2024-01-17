@@ -76,17 +76,23 @@ public class ShoppingPage extends JFrame implements ActionListener{
         tablePanel.add(scroll, BorderLayout.CENTER);
 
 
-        //Product Details panel
-        JPanel detailPanel = new JPanel();
+        //Set product details panel
+        JPanel detailPanel = new JPanel(new BorderLayout());
         detailPanel.add(productDetail);
-        detailPanel.add(addToCart);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addToCart);
+
+        JPanel infoPanel = new JPanel(new BorderLayout());
+        infoPanel.add(detailPanel,BorderLayout.NORTH);
+        infoPanel.add(buttonPanel,BorderLayout.SOUTH);
 
 
         //set frame
         frame.setLayout(new BorderLayout());
         frame.add(topBar, BorderLayout.NORTH);
         frame.add(tablePanel, BorderLayout.CENTER);
-        frame.add(detailPanel, BorderLayout.SOUTH);
+        frame.add(infoPanel, BorderLayout.SOUTH);
         sortTableByProductId();
         frame.setVisible(true);
 
