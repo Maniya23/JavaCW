@@ -31,7 +31,7 @@ public class ShoppingCartPage extends JFrame{
 
         for (Product product : shoppingCart.getItemsCart()) {
             if (!uniqueProducts.contains(product.getpID())){
-                Object[] rowData = {ProductInfo(product),shoppingCart.getQuantity(product),shoppingCart.getProductTotal(product)+" €"};
+                Object[] rowData = {ProductInfo(product),shoppingCart.getEqualProductQuantity(product),shoppingCart.getProductTotal(product)+" €"};
                 ProductTableModel.addRow(rowData);
                 uniqueProducts.add(product.getpID());
             }
@@ -45,7 +45,7 @@ public class ShoppingCartPage extends JFrame{
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(scroll);
 
-        FinalAmountDesc = new JTextArea("First Purchase Discount(10%) :"+shoppingCart.firstPurchaseDiscount(shoppingCart, user.isUserFound())+
+        FinalAmountDesc = new JTextArea("First Purchase Discount(10%) :"+shoppingCart.newUserDiscount(shoppingCart, user.isUserFound())+
                 "\n3 Items in the same Category Discount(20%) :"+shoppingCart.sameCategoryDiscount(shoppingCart)+" €"+
                 "\nTotal Amount :"+shoppingCart.cartTotalPrice()+" €");
 

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class ShoppingPage extends JFrame implements ActionListener{
     private JFrame frame = new JFrame();
@@ -20,11 +21,16 @@ public class ShoppingPage extends JFrame implements ActionListener{
     private WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
     private ShoppingCartPage shoppingCartInterface;
     private User user;
+    HashMap<String,Integer> productAvailability = new HashMap<>();
 
     ShoppingPage(WestminsterShoppingManager shoppingManager, User user) {
         this.user = user;
         this.shoppingCart = new ShoppingCart(user);
         this.shoppingManager = shoppingManager;
+
+        for (Product product:shoppingManager.getProductList()){
+            productAvailability.put(product.getpID(),product.getAvailableStock());
+        }
 
         //set frame
         frame.setTitle("Westminster Shopping Manager");
@@ -122,15 +128,23 @@ public class ShoppingPage extends JFrame implements ActionListener{
         if (e.getSource()==addToCart){
             int selectedRow = productTable.getSelectedRow();
             if (selectedRow != -1) {
-                String productID = (String) productTableModel.getValueAt(selectedRow, 0);
+                String ProductId = (String) productTable.getValueAt(selectedRow, 0);
+                int value = productAvailability.get(ProductId)-1;
+                productAvailability.put(ProductId,value);
                 for (Product product : shoppingManager.getProductList()) {
-                    if (product.getpID().equals(productID)) {
-                        shoppingCart.addProducts(product);
+                    if (productAvailability.get(ProductId)<0){
+                        JOptionPane.showMessageDialog(this, "You cannot add more than available items");
+                        break;
+                    }
+                    if (product.getpID().equals(ProductId)) {
+                        shoppingCart.getItemsCart().add(product);
                         JOptionPane.showMessageDialog(this, "The Product has been added successfully");
                         break;
                     }
                 }
-            }else {JOptionPane.showMessageDialog(this, "Please select a product to be added");}
+            }else {
+                JOptionPane.showMessageDialog(this, "Please select a product to be added");
+            }
         }
 
 

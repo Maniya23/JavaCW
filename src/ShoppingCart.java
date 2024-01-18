@@ -5,7 +5,6 @@ public class ShoppingCart {
     private ArrayList<Product>itemsCart;
     private double cartTotalAmt=0; //Total amount of the cart
 
-    ShoppingCartPage shoppingCartPage;
 
     ShoppingCart(User user){
         this.user = user;
@@ -22,7 +21,7 @@ public class ShoppingCart {
             cartTotalAmt = cartTotalAmt+i.getpPrice();
         }
         cartTotalAmt = cartTotalAmt - sameCategoryDiscount(this);
-        cartTotalAmt = cartTotalAmt - firstPurchaseDiscount(this, user.isUserFound());
+        cartTotalAmt = cartTotalAmt - newUserDiscount(this, user.isUserFound());
         return cartTotalAmt;
     }
 
@@ -35,32 +34,36 @@ public class ShoppingCart {
     }
 
     // Get quantity of product
-    public int getQuantity(Product product){
+    public int getEqualProductQuantity(Product product){
         int quantity = 0;
         for (Product productNew:this.getItemsCart()){
             if (product.getpID().equals(productNew.getpID())){
-                quantity++;}}
+                quantity++;
+            }
+        }
         return quantity;
+    }
+
+
+    public double getProductTotal(Product product){
+        double totalProduct = 0;
+        for (Product product2:this.getItemsCart()){
+            if (product.getpID().equals(product2.getpID())){
+                totalProduct = product.getpPrice()* getEqualProductQuantity(product);
+            }
+        }
+        return totalProduct;
     }
 
     public int getCategoryQuantity(Product product){
         int sameCategoryProducts = 0;
         for (Product productNew:this.getItemsCart()){
             if (product.getCategory().equals(productNew.getCategory())){
-                sameCategoryProducts++;}}
-        return sameCategoryProducts;
-    }
-
-    public double getProductTotal(Product product){
-        double productTotal = 0;
-        for (Product product2:this.getItemsCart()){
-            if (product.getpID().equals(product2.getpID())){
-                productTotal = product.getpPrice()*getQuantity(product);
+                sameCategoryProducts++;
             }
         }
-        return productTotal;
+        return sameCategoryProducts;
     }
-
     // Same category product discount
     public double sameCategoryDiscount(ShoppingCart shoppingCart){
         double discount = 0;
@@ -73,7 +76,7 @@ public class ShoppingCart {
     }
 
     // First time user discount
-    public double firstPurchaseDiscount(ShoppingCart shoppingCart, boolean firstPurchase){
+    public double newUserDiscount(ShoppingCart shoppingCart, boolean firstPurchase){
         double discount = 0;
         if (firstPurchase){
             for (Product product : shoppingCart.itemsCart) {
