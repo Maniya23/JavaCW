@@ -100,40 +100,45 @@ public class WestminsterShoppingManager implements ShoppingManager {
     public void deleteProducts() {
         Scanner scanner = new Scanner(System.in);
         String selection;
+        boolean productFound = false;
 
-        //Get product ID
+        // Get product ID
         System.out.print("Enter the product ID : ");
         String pID = scanner.nextLine();
 
-        // Loop productList
-        for (Product deletingProduct :productList) {
-            if (deletingProduct.getpID().equals(pID)){
-
-                //Print product details if product is found
+        // Loop through productList
+        for (Product deletingProduct : productList) {
+            if (deletingProduct.getpID().equals(pID)) {
+                // Print product details if product is found
                 System.out.println(deletingProduct.toString());
 
-                while(true){
+                while (true) {
                     System.out.print("Enter 'y' to delete or 'n' to cancel : ");
                     selection = scanner.nextLine().toLowerCase();
-                    if (selection.equals("y")|| selection.equals("n")){
+                    if (selection.equals("y") || selection.equals("n")) {
                         // If selection is yes
-                        if (selection.equals("y")){
+                        if (selection.equals("y")) {
                             productList.remove(deletingProduct); // Remove product from list
                             System.out.println("Product successfully removed");
-                            System.out.println(productList.size()+" products are remaining");
+                            System.out.println(productList.size() + " products are remaining");
                         }
                         break;
-                    }
-                    else {
-                        System.out.println("please enter valid input");
+                    } else {
+                        System.out.println("Please enter valid input");
                         System.out.println("-------------------------\n");
                     }
                 }
+
+                productFound = true; // Set flag to true since product is found
                 break;
             }
         }
-        System.out.println("Product ID not found");
+
+        if (!productFound) {
+            System.out.println("Product ID not found");
+        }
     }
+
 
     @Override
     public void printProductList() {
@@ -189,13 +194,14 @@ public class WestminsterShoppingManager implements ShoppingManager {
         Scanner scanner = new Scanner(System.in);
         String repeater;
         String userMenu =
-                        "1 : Add products to system\n" +
-                        "2 : Delete products from system\n" +
-                        "3 : Print the list of products\n" +
-                        "4 : Save products to file\n" +
-                        "5 : Open Shopping Manager GUI\n" +
-                        "6 : Close the program\n"+
-                        "Enter the number for the function you want to do : ";
+                """
+                        1 : Add products to system
+                        2 : Delete products from system
+                        3 : Print the list of products
+                        4 : Save products to file
+                        5 : Open Shopping Manager GUI
+                        6 : Close the program
+                        Enter the number for the function you want to do :\s""";
 
         WestminsterShoppingManager shoppingManager = new WestminsterShoppingManager();
         shoppingManager.readFromFile();
